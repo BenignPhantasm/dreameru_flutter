@@ -8,13 +8,30 @@ class Character {
   final String gender;
   final String personality;
   final String background;
+  final bool isControlled;
 
-  Character({
-    required this.name,
-    required this.gender,
-    required this.personality,
-    required this.background,
-  });
+  Character(
+      {required this.name,
+      required this.gender,
+      required this.personality,
+      required this.background,
+      required this.isControlled});
+
+  Character copyWith({
+    String? name,
+    String? gender,
+    String? personality,
+    String? background,
+    bool? isControlled,
+  }) {
+    return Character(
+      name: name ?? this.name,
+      gender: gender ?? this.gender,
+      personality: personality ?? this.personality,
+      background: background ?? this.background,
+      isControlled: isControlled ?? this.isControlled,
+    );
+  }
 }
 
 class CharacterList extends ConsumerWidget {
@@ -50,7 +67,7 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
       child: ListTile(
         leading: CircleAvatar(
           child: Text(widget.character.name.isNotEmpty
-              ? widget.character.name.substring(0, 3)
+              ? widget.character.name.substring(0, 2)
               : '?'),
         ),
         title: Text(
@@ -73,12 +90,20 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
                   const PopupMenuItem(
                       value: "control", child: Text("Control Character")),
                   const PopupMenuItem(
-                      value: "control", child: Text("Delete Character")),
+                      value: "delete", child: Text("Delete Character")),
                 ];
               },
               onSelected: (value) {
                 if (value == "edit") {
                   _characterEditDialog(context);
+                } else if (value == "control") {
+                  ref
+                      .read(characterListProvider.notifier)
+                      .controlCharacter(widget.character);
+                } else if (value == "delete") {
+                  ref
+                      .read(characterListProvider.notifier)
+                      .removeCharacter(widget.character);
                 }
               },
             )
@@ -104,7 +129,8 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
           name: characterNameController.text,
           background: characterBackgroundController.text,
           gender: characterGenderController.text,
-          personality: characterPersonalityController.text);
+          personality: characterPersonalityController.text,
+          isControlled: false);
 
       ref
           .read(characterListProvider.notifier)

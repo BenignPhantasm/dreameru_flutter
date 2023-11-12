@@ -6,13 +6,28 @@ import 'conversation.dart';
 import 'character_list.dart';
 
 class CharacterListNotifier extends StateNotifier<List<Character>> {
-  int _activeCharacter = 0;
+  late Character _activeCharacter;
+
   CharacterListNotifier() : super([]) {
     addCharacter(Character(
-        name: "Name Blah",
+        name: "Bob",
         background: "background blah",
         gender: "gender blah",
-        personality: "personality blah"));
+        personality: "personality blah",
+        isControlled: true));
+    addCharacter(Character(
+        name: "Alice",
+        background: "background blah",
+        gender: "gender blah",
+        personality: "personality blah",
+        isControlled: false));
+    addCharacter(Character(
+        name: "John",
+        background: "background blah",
+        gender: "gender blah",
+        personality: "personality blah",
+        isControlled: false));
+    _activeCharacter = state[0];
   }
 
   void addCharacter(Character character) {
@@ -20,7 +35,21 @@ class CharacterListNotifier extends StateNotifier<List<Character>> {
   }
 
   void removeCharacter(Character character) {
-    return;
+    state = state.where((Character currChar) => currChar != character).toList();
+
+    if (character == _activeCharacter) {
+      _activeCharacter = state[0];
+    }
+  }
+
+  void controlCharacter(Character character) {
+    state = state.map((currChar) {
+      if (currChar == character) {
+        _activeCharacter = currChar.copyWith(isControlled: true);
+        return _activeCharacter;
+      }
+      return currChar.copyWith(isControlled: false);
+    }).toList();
   }
 
   void editCharacter(Character character, Character newCharacter) {
@@ -30,11 +59,10 @@ class CharacterListNotifier extends StateNotifier<List<Character>> {
       }
       return currChar;
     }).toList();
-    return;
   }
 
   Character getActiveCharacter() {
-    return state[_activeCharacter];
+    return _activeCharacter;
   }
 }
 

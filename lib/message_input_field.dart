@@ -40,12 +40,14 @@ class MessageInputFieldState extends ConsumerState<MessageInputField> {
   }
 
   final activeCharacterProvider = Provider<Character>((ref) {
-    return ref.watch(characterListProvider.notifier).getActiveCharacter();
+    ref.watch(characterListProvider);
+    return ref.read(characterListProvider.notifier).getActiveCharacter();
   });
 
   @override
   Widget build(BuildContext context) {
     Character activeCharacter = ref.watch(activeCharacterProvider);
+
     return Card(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -53,7 +55,7 @@ class MessageInputFieldState extends ConsumerState<MessageInputField> {
         children: [
           CircleAvatar(
               child: Text(activeCharacter.name.isNotEmpty
-                  ? activeCharacter.name.substring(0, 3)
+                  ? activeCharacter.name.substring(0, 2)
                   : "?")),
           const SizedBox(width: 8),
           Expanded(
