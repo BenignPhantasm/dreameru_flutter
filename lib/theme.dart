@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 const pastelDarkBlue = 0xFF1E1E2E;
 const pastelDarkLavender = 0xFF2A2A37;
 const pastelMutedPurple = 0xFF383447;
-const pastelLightLavender = 0xFFF1EDFF; // Hue is 254 out of 360 degrees
+const white = 0xFFFFFFFF;
+//const pastelLightLavender = 0xFFF1EDFF; // Hue is 254 out of 360 degrees
 const pastelGreen = 0xFFA6E3A1;
 //const pastelGreen = 0xFFA6F373;
 const pastelPink = 0xFFF5C2E7;
@@ -26,7 +27,7 @@ ColorScheme myAppColorScheme = const ColorScheme(
 
   // Primary color used for AppBar, FloatingActionButtons, and more
   primary: Color(pastelLightPurple),
-  onPrimary: Color(pastelLightLavender),
+  onPrimary: Color(white),
 
   // Secondary color for widgets like FloatingActionButton, Switch, etc.
   secondary: Color(pastelSkyBlue),
@@ -41,8 +42,8 @@ ColorScheme myAppColorScheme = const ColorScheme(
   // primaryVariant: Color(pastelLightPurple),
 
   // Background/text contrast
-  onBackground: Color(pastelLightLavender),
-  onSurface: Color(pastelLightLavender),
+  onBackground: Color(white),
+  onSurface: Color(white),
 
   // Additional accent colors
   tertiary: Color(pastelPink),
@@ -63,9 +64,9 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor:
       const Color(pastelDarkBlue), // Dark background for screens
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Color(pastelLightLavender), fontSize: 16),
-    bodyMedium: TextStyle(color: Color(pastelLightLavender)),
-    bodySmall: TextStyle(color: Color(pastelLightLavender)),
-    labelLarge: TextStyle(color: Color(pastelLightLavender)),
+    bodyLarge: TextStyle(fontSize: 16),
+    //bodyMedium: TextStyle(),
+    //bodySmall: TextStyle(),
+    //labelLarge: TextStyle(),
   ),
 );

@@ -72,7 +72,7 @@ class MessageInputFieldState extends ConsumerState<MessageInputField> {
           IconButton(
             icon: const Icon(Icons.send),
             onPressed: () => widget.onSubmitted(widget.controller.text),
-            color: const Color(pastelLightLavender),
+            color: const Color(white),
           ),
         ],
       ),

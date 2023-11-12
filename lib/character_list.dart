@@ -53,8 +53,9 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
               ? widget.character.name.substring(0, 3)
               : '?'),
         ),
-        title: Text(widget.character.name,
-            style: const TextStyle(color: Color(pastelLightLavender))),
+        title: Text(
+          widget.character.name,
+        ),
         subtitle: Row(
           children: [
             OutlinedButton(
@@ -64,11 +65,6 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
                 ),
                 child: const Text("Generate turn",
                     style: TextStyle(color: Color(pastelGreen)))),
-            //IconButton(
-            //  icon: const Icon(Icons.settings),
-            //  onPressed: () => _characterEditDialog(context),
-            //  color: const Color(pastelLightLavender),
-            //)
             PopupMenuButton(
               itemBuilder: (BuildContext context) {
                 return [
