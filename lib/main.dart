@@ -1,9 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'message_input_field.dart';
 
 void main() {
   runApp(const MyChatApp());
 }
+
+ColorScheme myAppColorScheme = const ColorScheme(
+  // Dark theme base colors
+  brightness: Brightness.dark,
+  background: Color(0xFF1E1E2E),  // Dark background for screens
+  surface: Color(0xFF2A2A37),     // Slightly lighter background for elements like Card
+
+  // Primary color used for AppBar, FloatingActionButtons, and more
+  primary: Color(0xFFC8BAF7),      // Pastel purple as the main accent color
+  onPrimary: Color(0xFFCDD6F4),    // Text color on top of primary color
+
+  // Secondary color for widgets like FloatingActionButton, Switch, etc.
+  secondary: Color(0xFF89DCEB),    // Pastel sky blue as secondary color
+  onSecondary: Color(0xFF1E1E2E),  // Dark color for text/icons on top of secondary color
+
+  // Error color for use in input validation and other 'error' scenarios
+  error: Color(0xFFF28B82),        // Soft pastel red for errors
+  onError: Color(0xFF1E1E2E),      // Dark color for text/icons on top of error color
+
+  // Additional colors for different parts of your UI
+  // secondaryVariant: Color(0xFF94E2D5), // Pastel mint for secondary variant
+  // primaryVariant: Color(0xFFC8BAF7),   // Lighter pastel purple for primary variant
+
+  // Background/text contrast
+  onBackground: Color(0xFFCDD6F4),    // Text color on top of background
+  onSurface: Color(0xFFCDD6F4),       // Text color on surfaces
+
+  // Additional accent colors
+  tertiary: Color(0xFFF5C2E7),        // Pastel pink for tertiary color
+  tertiaryContainer: Color(0xFFFAE3B0), // Pastel yellow for tertiary containers
+
+  // Typically, you might want to have a slightly off-white shade
+  onTertiary: Color(0xFF1E1E2E),     // Dark color for text/icons on top of tertiary color
+
+  // Success and warning colors (not directly part of ColorScheme, but good to define)
+  // Success: const Color(0xFFA6E3A1),     // Pastel green for success indicators
+  // Warning: const Color(0xFFFFB374),     // Pastel orange for warnings
+);
+
+ThemeData darkTheme = ThemeData(
+  colorScheme: myAppColorScheme,
+  scaffoldBackgroundColor: const Color(0xFF1E1E2E),  // Dark background for screens
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(color: Color(0xFFCDD6F4)),
+    bodyMedium:  TextStyle(color: Color(0xFFCDD6F4)),
+  ),
+);
 
 class MyChatApp extends StatelessWidget {
   const MyChatApp({super.key});
@@ -11,6 +59,7 @@ class MyChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: darkTheme,
       home: ChatScreen(key: GlobalKey()),
     );
   }
@@ -37,30 +86,10 @@ class ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  bool _isShiftPressed(RawKeyEvent event) {
-    return event.isShiftPressed;
-  }
-
-  void _handleKeyEvent(RawKeyEvent event) {
-    if (event is RawKeyDownEvent) {
-      if (event.logicalKey == LogicalKeyboardKey.enter) {
-        if (!_isShiftPressed(event)) {
-          _handleSubmitted(_textController.text);
-        }
-      }
-    }
-  }
-
-  void _removeExtraNewLine(String value) {
-    if(re.hasMatch(value)){
-      _textController.clear();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Chat App")),
+      appBar: AppBar(title: const Text("Dreameru")),
       body: Column(
         children: [
           Expanded(
@@ -74,32 +103,11 @@ class ChatScreenState extends State<ChatScreen> {
             ),
           ),
           const Divider(height: 1.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                const CircleAvatar(child: Text("Te")),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: RawKeyboardListener(
-                    focusNode: _focusNode,
-                    onKey: _handleKeyEvent,
-                    child: TextField(
-                      controller: _textController,
-                      decoration: const InputDecoration(hintText: "Enter message"),
-                      onSubmitted: (value) => _handleSubmitted(value),
-                      maxLines: null,
-                      onChanged: _removeExtraNewLine,
-                    ),
-                  )
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () => _handleSubmitted(_textController.text),
-                ),
-              ],
-            ),
-          ),
+          MessageInputField(
+            onSubmitted: _handleSubmitted,
+            controller: _textController,
+            focusNode: _focusNode
+          )
         ],
       ),
     );
