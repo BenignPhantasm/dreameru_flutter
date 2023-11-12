@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme.dart';
 
+enum Gender { male, female }
+
 class Character {
   final String name;
-  final String gender;
+  final Gender gender;
   final String personality;
   final String background;
   final bool isControlled;
@@ -19,7 +21,7 @@ class Character {
 
   Character copyWith({
     String? name,
-    String? gender,
+    Gender? gender,
     String? personality,
     String? background,
     bool? isControlled,
@@ -62,7 +64,14 @@ class CharacterCard extends ConsumerStatefulWidget {
 class CharacterCardState extends ConsumerState<CharacterCard> {
   @override
   Widget build(BuildContext context) {
+    Color borderColor = const Color(0x00000000);
+    if (widget.character.isControlled == true) {
+      borderColor = const Color(pastelYellow);
+    }
     return Card(
+      shape: RoundedRectangleBorder(
+          side: BorderSide(color: borderColor),
+          borderRadius: BorderRadius.circular(20.0)),
       margin: const EdgeInsets.all(8),
       child: ListTile(
         leading: CircleAvatar(
@@ -119,58 +128,83 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
         TextEditingController(text: widget.character.name);
     final TextEditingController characterBackgroundController =
         TextEditingController(text: widget.character.background);
-    final TextEditingController characterGenderController =
-        TextEditingController(text: widget.character.gender);
+    //final TextEditingController characterGenderController =
+    //TextEditingController(text: widget.character.gender);
     final TextEditingController characterPersonalityController =
         TextEditingController(text: widget.character.personality);
 
-    void saveCharacter() {
+    void saveCharacter(Gender inputGender) {
       Character newCharacter = Character(
           name: characterNameController.text,
           background: characterBackgroundController.text,
-          gender: characterGenderController.text,
+          //gender: characterGenderController.text,
+          gender: inputGender,
           personality: characterPersonalityController.text,
           isControlled: false);
 
       ref
           .read(characterListProvider.notifier)
           .editCharacter(widget.character, newCharacter);
+      Navigator.pop(context);
     }
 
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Character Information"),
-            backgroundColor: const Color(pastelDarkLavender),
-            content: SingleChildScrollView(
-              child: ListBody(children: [
-                TextField(
-                    decoration: const InputDecoration(labelText: "Name"),
-                    controller: characterNameController),
-                TextField(
-                    decoration: const InputDecoration(labelText: "Gender"),
-                    controller: characterGenderController),
-                TextField(
-                    decoration:
-                        const InputDecoration(labelText: "Personality Traits"),
-                    controller: characterPersonalityController),
-                TextField(
-                    decoration: const InputDecoration(labelText: "Background"),
-                    controller: characterBackgroundController,
-                    maxLines: null),
-              ]),
-            ),
-            actions: <Widget>[
-              TextButton(onPressed: saveCharacter, child: const Text("save")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("cancel",
-                      style: TextStyle(color: Color(pastelRed)))),
-            ],
-          );
+          Gender gender = widget.character.gender;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Character Information"),
+              backgroundColor: const Color(pastelDarkLavender),
+              content: SingleChildScrollView(
+                child: ListBody(children: [
+                  TextField(
+                      decoration: const InputDecoration(labelText: "Name"),
+                      controller: characterNameController),
+                  DropdownButton<String>(
+                    dropdownColor: const Color(pastelDarkBlue),
+                    value: gender.name,
+                    items: Gender.values.map((Gender gender) {
+                      return DropdownMenuItem<String>(
+                        value: gender.name,
+                        child: Text(gender.name),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        gender = Gender.values.byName(newValue!);
+                      });
+                    },
+                  ),
+                  //TextField(
+                  //    decoration: const InputDecoration(labelText: "Gender"),
+                  //    controller: characterGenderController),
+                  TextField(
+                      decoration: const InputDecoration(
+                          labelText: "Personality Traits"),
+                      controller: characterPersonalityController),
+                  TextField(
+                      decoration:
+                          const InputDecoration(labelText: "Background"),
+                      controller: characterBackgroundController,
+                      maxLines: null),
+                ]),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      saveCharacter(gender);
+                    },
+                    child: const Text("save")),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("cancel",
+                        style: TextStyle(color: Color(pastelRed)))),
+              ],
+            );
+          });
         });
   }
 }

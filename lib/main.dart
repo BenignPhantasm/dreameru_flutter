@@ -12,19 +12,19 @@ class CharacterListNotifier extends StateNotifier<List<Character>> {
     addCharacter(Character(
         name: "Bob",
         background: "background blah",
-        gender: "gender blah",
+        gender: Gender.male,
         personality: "personality blah",
         isControlled: true));
     addCharacter(Character(
         name: "Alice",
         background: "background blah",
-        gender: "gender blah",
+        gender: Gender.female,
         personality: "personality blah",
         isControlled: false));
     addCharacter(Character(
         name: "John",
         background: "background blah",
-        gender: "gender blah",
+        gender: Gender.male,
         personality: "personality blah",
         isControlled: false));
     _activeCharacter = state[0];
