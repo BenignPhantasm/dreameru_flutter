@@ -64,10 +64,23 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
                 ),
                 child: const Text("Generate turn",
                     style: TextStyle(color: Color(pastelGreen)))),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () => _characterEditDialog(context),
-              color: const Color(pastelLightLavender),
+            //IconButton(
+            //  icon: const Icon(Icons.settings),
+            //  onPressed: () => _characterEditDialog(context),
+            //  color: const Color(pastelLightLavender),
+            //)
+            PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem(
+                      value: "edit", child: Text("Edit Character"))
+                ];
+              },
+              onSelected: (value) {
+                if (value == "edit") {
+                  _characterEditDialog(context);
+                }
+              },
             )
           ],
         ),

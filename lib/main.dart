@@ -8,6 +8,7 @@ import 'character_list.dart';
 class CharacterListNotifier extends StateNotifier<List<Character>> {
   //Map<Character, int> characterMap = {};
 
+  int _activeCharacter = 0;
   CharacterListNotifier() : super([]) {
     addCharacter(Character(
         name: "Name Blah",
@@ -32,6 +33,10 @@ class CharacterListNotifier extends StateNotifier<List<Character>> {
       return currChar;
     }).toList();
     return;
+  }
+
+  Character getActiveCharacter() {
+    return state[_activeCharacter];
   }
 }
 

@@ -59,6 +59,7 @@ ColorScheme myAppColorScheme = const ColorScheme(
 ThemeData darkTheme = ThemeData(
   colorScheme: myAppColorScheme,
   cardTheme: const CardTheme(color: Color(pastelMutedPurple)),
+  popupMenuTheme: const PopupMenuThemeData(color: Color(pastelDarkLavender)),
   scaffoldBackgroundColor:
       const Color(pastelDarkBlue), // Dark background for screens
   textTheme: const TextTheme(

@@ -1,8 +1,11 @@
 import 'package:dreameru_flutter/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dreameru_flutter/main.dart';
+import 'package:dreameru_flutter/character_list.dart';
 
-class MessageInputField extends StatefulWidget {
+class MessageInputField extends ConsumerStatefulWidget {
   final Function(String) onSubmitted;
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -15,10 +18,10 @@ class MessageInputField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State createState() => _MessageInputFieldState();
+  MessageInputFieldState createState() => MessageInputFieldState();
 }
 
-class _MessageInputFieldState extends State<MessageInputField> {
+class MessageInputFieldState extends ConsumerState<MessageInputField> {
   void _handleKeyEvent(RawKeyEvent event) {
     if (event is RawKeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.enter) {
@@ -36,14 +39,22 @@ class _MessageInputFieldState extends State<MessageInputField> {
     }
   }
 
+  final activeCharacterProvider = Provider<Character>((ref) {
+    return ref.watch(characterListProvider.notifier).getActiveCharacter();
+  });
+
   @override
   Widget build(BuildContext context) {
+    Character activeCharacter = ref.watch(activeCharacterProvider);
     return Card(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
         children: [
-          const CircleAvatar(child: Text("Te")),
+          CircleAvatar(
+              child: Text(activeCharacter.name.isNotEmpty
+                  ? activeCharacter.name.substring(0, 3)
+                  : "?")),
           const SizedBox(width: 8),
           Expanded(
             child: RawKeyboardListener(
