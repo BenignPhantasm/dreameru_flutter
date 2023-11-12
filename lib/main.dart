@@ -1,18 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'message_input_field.dart';
 import 'theme.dart';
 import 'conversation.dart';
 import 'character_list.dart';
 
-void main() {
-  runApp(const Dreameru());
+class CharacterListNotifier extends StateNotifier<List<Character>> {
+  //Map<Character, int> characterMap = {};
+
+  CharacterListNotifier() : super([]) {
+    addCharacter(Character(
+        name: "Name Blah",
+        background: "background blah",
+        gender: "gender blah",
+        personality: "personality blah"));
+  }
+
+  void addCharacter(Character character) {
+    state = [...state, character];
+  }
+
+  void removeCharacter(Character character) {
+    return;
+  }
+
+  void editCharacter(Character character, Character newCharacter) {
+    state = state.map((currChar) {
+      if (currChar == character) {
+        return newCharacter;
+      }
+      return currChar;
+    }).toList();
+    return;
+  }
 }
 
-class Dreameru extends StatelessWidget {
+final characterListProvider =
+    StateNotifierProvider<CharacterListNotifier, List<Character>>((ref) {
+  return CharacterListNotifier();
+});
+
+void main() {
+  runApp(const ProviderScope(child: Dreameru()));
+}
+
+class Dreameru extends ConsumerWidget {
   const Dreameru({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       theme: darkTheme,
       home: ChatScreen(key: GlobalKey()),
@@ -28,13 +64,6 @@ class ChatScreen extends StatefulWidget {
 
 class ChatScreenState extends State<ChatScreen> {
   final List<String> _messages = [];
-  final List<Character> _characters = [
-    Character(
-        name: "Name Blah",
-        background: "background blah",
-        gender: "gender blah",
-        personality: "personality blah")
-  ];
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   var re = RegExp(r"\s*\n\s*");
@@ -72,7 +101,7 @@ class ChatScreenState extends State<ChatScreen> {
           ),
         ),
         const VerticalDivider(width: 1),
-        Expanded(flex: 1, child: CharacterList(characters: _characters))
+        const Expanded(flex: 1, child: CharacterList())
       ]),
     );
   }

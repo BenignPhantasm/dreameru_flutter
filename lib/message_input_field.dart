@@ -61,7 +61,7 @@ class _MessageInputFieldState extends State<MessageInputField> {
           IconButton(
             icon: const Icon(Icons.send),
             onPressed: () => widget.onSubmitted(widget.controller.text),
-            color: const Color(pastelLavender),
+            color: const Color(pastelLightLavender),
           ),
         ],
       ),

@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 
 const pastelDarkBlue = 0xFF1E1E2E;
 const pastelDarkLavender = 0xFF2A2A37;
-const pastelDarkPlum = 0xFF312A4A;
-const pastelDarkSlatePurple = 0xFF423B58;
-const pastelDeepPurple = 0xFFA991F7;
-const pastelLavender = 0xFFCDD6F4;
+const pastelMutedPurple = 0xFF383447;
+const pastelLightLavender = 0xFFF1EDFF; // Hue is 254 out of 360 degrees
+const pastelGreen = 0xFFA6E3A1;
+//const pastelGreen = 0xFFA6F373;
 const pastelPink = 0xFFF5C2E7;
 const pastelSkyBlue = 0xFF89DCEB;
 const pastelRed = 0xFFF28B82;
-const pastelOrange = 0xFFFFB374;
-const pastelMint = 0xFF94E2D5;
-const pastelGreen = 0xFFA6E3A1;
 const pastelYellow = 0xFFFAE3B0;
 const pastelLightPurple = 0xFFC8BAF7;
+//const pastelDarkPlum = 0xFF312A4A;
+//const pastelDarkSlatePurple = 0xFF423B58;
+//const pastelDeepPurple = 0xFFA991F7;
+//const pastelLavender = 0xFFCDD6F4;
+//const pastelOrange = 0xFFFFB374;
+//const pastelMint = 0xFF94E2D5;
 
 ColorScheme myAppColorScheme = const ColorScheme(
   // Dark theme base colors
@@ -23,7 +26,7 @@ ColorScheme myAppColorScheme = const ColorScheme(
 
   // Primary color used for AppBar, FloatingActionButtons, and more
   primary: Color(pastelLightPurple),
-  onPrimary: Color(pastelLavender),
+  onPrimary: Color(pastelLightLavender),
 
   // Secondary color for widgets like FloatingActionButton, Switch, etc.
   secondary: Color(pastelSkyBlue),
@@ -38,8 +41,8 @@ ColorScheme myAppColorScheme = const ColorScheme(
   // primaryVariant: Color(pastelLightPurple),
 
   // Background/text contrast
-  onBackground: Color(pastelLavender),
-  onSurface: Color(pastelLavender),
+  onBackground: Color(pastelLightLavender),
+  onSurface: Color(pastelLightLavender),
 
   // Additional accent colors
   tertiary: Color(pastelPink),
@@ -55,13 +58,13 @@ ColorScheme myAppColorScheme = const ColorScheme(
 
 ThemeData darkTheme = ThemeData(
   colorScheme: myAppColorScheme,
-  cardTheme: const CardTheme(color: Color(pastelDarkPlum)),
+  cardTheme: const CardTheme(color: Color(pastelMutedPurple)),
   scaffoldBackgroundColor:
       const Color(pastelDarkBlue), // Dark background for screens
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Color(pastelLavender), fontSize: 16),
-    bodyMedium: TextStyle(color: Color(pastelLavender)),
-    bodySmall: TextStyle(color: Color(pastelLavender)),
-    labelLarge: TextStyle(color: Color(pastelLavender)),
+    bodyLarge: TextStyle(color: Color(pastelLightLavender), fontSize: 16),
+    bodyMedium: TextStyle(color: Color(pastelLightLavender)),
+    bodySmall: TextStyle(color: Color(pastelLightLavender)),
+    labelLarge: TextStyle(color: Color(pastelLightLavender)),
   ),
 );
