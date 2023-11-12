@@ -64,9 +64,10 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor:
       const Color(pastelDarkBlue), // Dark background for screens
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(fontSize: 16),
-    //bodyMedium: TextStyle(),
-    //bodySmall: TextStyle(),
-    //labelLarge: TextStyle(),
-  ),
+      bodyLarge: TextStyle(fontSize: 16),
+      headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+      //bodyMedium: TextStyle(),
+      //bodySmall: TextStyle(),
+      //labelLarge: TextStyle(),
+      ),
 );
