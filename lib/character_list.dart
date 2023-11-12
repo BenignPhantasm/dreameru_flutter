@@ -73,7 +73,11 @@ class CharacterCardState extends ConsumerState<CharacterCard> {
               itemBuilder: (BuildContext context) {
                 return [
                   const PopupMenuItem(
-                      value: "edit", child: Text("Edit Character"))
+                      value: "edit", child: Text("Edit Character")),
+                  const PopupMenuItem(
+                      value: "control", child: Text("Control Character")),
+                  const PopupMenuItem(
+                      value: "control", child: Text("Delete Character")),
                 ];
               },
               onSelected: (value) {
